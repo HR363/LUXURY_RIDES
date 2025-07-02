@@ -1,0 +1,88 @@
+<nav class="bg-white dark:bg-gray-900 shadow-lg border-b border-lightgrey dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a routerLink="/" class="flex items-center space-x-2">
+          <app-lucide-icon name="Car" class="w-8 h-8 text-primary" aria-label="Car icon"></app-lucide-icon>
+          <span class="text-xl font-bold text-primary font-inter">CarRental</span>
+        </a>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a routerLink="/" routerLinkActive="text-accent" class="text-slate dark:text-gray-300 hover:text-accent dark:hover:text-accent transition-colors font-medium">Home</a>
+        <a routerLink="/vehicles" routerLinkActive="text-accent" class="text-slate dark:text-gray-300 hover:text-accent dark:hover:text-accent transition-colors font-medium">Vehicles</a>
+        <a routerLink="/about" routerLinkActive="text-accent" class="text-slate dark:text-gray-300 hover:text-accent dark:hover:text-accent transition-colors font-medium">About Us</a>
+        <a routerLink="/faq" routerLinkActive="text-accent" class="text-slate dark:text-gray-300 hover:text-accent dark:hover:text-accent transition-colors font-medium">FAQ</a>
+      </div>
+
+      <!-- User Menu -->
+      <div class="flex items-center space-x-4">
+        <app-theme-toggle></app-theme-toggle>
+        <ng-container *ngIf="currentUser; else guestLinks">
+          <span class="text-slate dark:text-gray-300 font-medium">Hi, {{ currentUser.firstName }}</span>
+          <a routerLink="/profile" class="text-slate dark:text-gray-300 hover:text-accent font-medium" title="Profile">
+            <app-lucide-icon name="User" class="w-6 h-6"></app-lucide-icon>
+          </a>
+          <a *ngIf="currentUser.role === 'ADMIN'" routerLink="/admin" class="text-slate dark:text-gray-300 hover:text-accent font-medium">Admin</a>
+          <a *ngIf="currentUser.role === 'AGENT'" routerLink="/agent/dashboard" class="text-slate dark:text-gray-300 hover:text-accent font-medium">Agent Dashboard</a>
+          <a *ngIf="currentUser.role !== 'ADMIN' && currentUser.role !== 'AGENT'" routerLink="/dashboard" class="text-slate dark:text-gray-300 hover:text-accent font-medium">Dashboard</a>
+          <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-medium">Logout</button>
+        </ng-container>
+        <ng-template #guestLinks>
+          <a routerLink="/signin" class="text-slate hover:text-accent font-medium">Sign In</a>
+          <a routerLink="/signup" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-800 font-medium">Sign Up</a>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="min-h-screen bg-background dark:bg-gray-950">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer -->
+<footer class="bg-primary dark:bg-gray-900 text-white py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold mb-4">CarRental</h3>
+        <p class="text-gray-300 dark:text-gray-400">Premium car rentals in Kenya. Your journey awaits.</p>
+      </div>
+      <div>
+        <h4 class="text-md font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a routerLink="/about" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">About Us</a></li>
+          <li><a href="#" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Contact</a></li>
+          <li><a href="#" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Terms</a></li>
+          <li><a href="#" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Privacy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-md font-semibold mb-4">Services</h4>
+        <ul class="space-y-2">
+          <li><a routerLink="/vehicles" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Car Rental</a></li>
+          <li><a href="#" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Luxury Cars</a></li>
+          <li><a href="#" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Business Travel</a></li>
+          <li><a href="#" class="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">Airport Pickup</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-md font-semibold mb-4">Contact</h4>
+        <ul class="space-y-2 text-gray-300 dark:text-gray-400">
+          <li>Nairobi, Kenya</li>
+          <li>+254 700 000 000</li>
+          <li>info&#64;carrental.co.ke</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 dark:border-gray-600 mt-8 pt-8 text-center text-gray-300 dark:text-gray-400">
+      <p>&copy; 2024 CarRental. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<app-toast></app-toast> 

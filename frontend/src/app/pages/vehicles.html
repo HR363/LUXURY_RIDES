@@ -1,0 +1,169 @@
+<!-- Header Section -->
+<section class="bg-gradient-to-r from-primary to-blue-800 text-white py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Vehicle Fleet</h1>
+      <p class="text-xl text-white/90 max-w-2xl mx-auto">
+        Choose from our extensive collection of premium vehicles for your perfect journey
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Filters and Search Bar -->
+  <div class="mb-8">
+    <form [formGroup]="filterForm">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- Search Input -->
+          <div class="flex-1">
+            <div class="relative">
+              <app-lucide-icon name="Search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></app-lucide-icon>
+              <input 
+                type="text" 
+                formControlName="search"
+                placeholder="Search vehicles by make, model, or category..."
+                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+            </div>
+          </div>
+          
+          <!-- Filter Toggle Button -->
+          <button 
+            type="button"
+            (click)="toggleFilters()"
+            class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-lg transition-colors"
+          >
+            <app-lucide-icon name="Filter" class="w-5 h-5"></app-lucide-icon>
+            Filters
+            <app-lucide-icon 
+              [name]="showFilters ? 'ChevronUp' : 'ChevronDown'" 
+              class="w-4 h-4"
+            ></app-lucide-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Advanced Filters -->
+    <div *ngIf="showFilters" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-4">
+      <form [formGroup]="filterForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Category Filter -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+          <select 
+            formControlName="category"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+          <select 
+            formControlName="priceRange"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">Any Price</option>
+            <option *ngFor="let range of priceRanges" [value]="range.value">{{ range.label }}</option>
+          </select>
+        </div>
+
+        <!-- Availability Filter -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Availability</label>
+          <select 
+            formControlName="isAvailable"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option [value]="true">Available Only</option>
+            <option [value]="false">Unavailable Only</option>
+            <option [value]="null">All Vehicles</option>
+          </select>
+        </div>
+
+        <!-- Clear Filters Button -->
+        <div class="flex items-end">
+          <button 
+            type="button"
+            (click)="clearFilters()"
+            class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <app-lucide-icon name="X" class="w-4 h-4"></app-lucide-icon>
+            Clear Filters
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
+      <span>
+        Showing {{ getFilteredCount() }} of {{ getTotalCount() }} vehicles
+      </span>
+      <span *ngIf="getFilteredCount() !== getTotalCount()" class="text-primary">
+        {{ getTotalCount() - getFilteredCount() }} vehicles filtered out
+      </span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center py-16">
+    <div class="text-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+      <p class="text-gray-600">Loading vehicles...</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+    <app-lucide-icon name="AlertCircle" class="w-12 h-12 text-red-500 mx-auto mb-4"></app-lucide-icon>
+    <h3 class="text-lg font-semibold text-red-800 mb-2">Error Loading Vehicles</h3>
+    <p class="text-red-600 mb-4">{{ error }}</p>
+    <button 
+      (click)="loadVehicles()"
+      class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+    >
+      Try Again
+    </button>
+  </div>
+
+  <!-- No Results State -->
+  <div *ngIf="!loading && !error && getFilteredCount() === 0" class="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
+    <app-lucide-icon name="Car" class="w-16 h-16 text-gray-400 mx-auto mb-4"></app-lucide-icon>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">No Vehicles Found</h3>
+    <p class="text-gray-600 mb-6">
+      No vehicles match your current filters. Try adjusting your search criteria.
+    </p>
+    <button 
+      (click)="clearFilters()"
+      class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+    >
+      Clear All Filters
+    </button>
+  </div>
+
+  <!-- Vehicles Grid -->
+  <div *ngIf="!loading && !error && getFilteredCount() > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <app-vehicle-card
+      *ngFor="let vehicle of filteredVehicles"
+      [vehicle]="vehicle"
+      class="hover:transform hover:scale-105 transition-transform duration-300"
+    ></app-vehicle-card>
+  </div>
+
+  <!-- Load More Button (if needed) -->
+  <div *ngIf="!loading && !error && getFilteredCount() > 0" class="text-center mt-12">
+    <button 
+      class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2 mx-auto"
+    >
+      <app-lucide-icon name="RefreshCw" class="w-5 h-5"></app-lucide-icon>
+      Load More Vehicles
+    </button>
+  </div>
+</div> 

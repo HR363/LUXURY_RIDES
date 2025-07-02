@@ -1,0 +1,99 @@
+/* Sign Up Page Styles */
+.bg-primary {
+  background-color: #2563eb;
+}
+
+.text-primary {
+  color: #2563eb;
+}
+
+/* Form focus effects */
+.focus\:ring-primary:focus {
+  --tw-ring-color: #2563eb;
+}
+
+.focus\:border-primary:focus {
+  border-color: #2563eb;
+}
+
+/* Button hover effects */
+.hover\:bg-primary\/90:hover {
+  background-color: rgba(37, 99, 235, 0.9);
+}
+
+.hover\:text-primary\/80:hover {
+  color: rgba(37, 99, 235, 0.8);
+}
+
+/* Input border colors */
+.border-red-300 {
+  border-color: #fca5a5;
+}
+
+/* Loading animation */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Card shadow effects */
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Success and error message styles */
+.bg-green-50 {
+  background-color: #f0fdf4;
+}
+
+.border-green-200 {
+  border-color: #bbf7d0;
+}
+
+.text-green-700 {
+  color: #15803d;
+}
+
+.text-green-500 {
+  color: #22c55e;
+}
+
+.bg-red-50 {
+  background-color: #fef2f2;
+}
+
+.border-red-200 {
+  border-color: #fecaca;
+}
+
+.text-red-700 {
+  color: #b91c1c;
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+
+/* Smooth transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .signup-container {
+    padding: 1rem;
+  }
+  
+  .signup-form {
+    padding: 1.5rem;
+  }
+} 

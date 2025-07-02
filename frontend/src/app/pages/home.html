@@ -1,0 +1,301 @@
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary via-blue-800 to-primary text-white overflow-hidden min-h-screen flex items-center">
+  <!-- Background Image -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url(assets/hero2.jpg);">
+    <div class="absolute inset-0 bg-black/50"></div>
+  </div>
+  
+  <!-- Animated Background Pattern -->
+  <div class="absolute inset-0 opacity-20">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.1&quot;%3E%3Ccircle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;2&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"></div>
+  </div>
+  
+  <!-- Floating Elements Animation -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="floating-car-1 absolute top-20 left-10 opacity-20">
+      <app-lucide-icon name="Car" class="w-16 h-16 text-white"></app-lucide-icon>
+    </div>
+    <div class="floating-car-2 absolute top-40 right-20 opacity-15">
+      <app-lucide-icon name="Car" class="w-12 h-12 text-white"></app-lucide-icon>
+    </div>
+    <div class="floating-car-3 absolute bottom-40 left-20 opacity-10">
+      <app-lucide-icon name="Car" class="w-20 h-20 text-white"></app-lucide-icon>
+    </div>
+  </div>
+  
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+    <div class="text-center">
+      <!-- Logo with Animation -->
+      <div class="flex justify-center mb-8 animate-bounce-slow">
+        <div class="bg-white/20 backdrop-blur-sm rounded-full p-6 border border-white/30 shadow-2xl">
+          <app-lucide-icon name="Car" class="w-20 h-20 text-white animate-pulse"></app-lucide-icon>
+        </div>
+      </div>
+      
+      <!-- Main Heading with Typing Animation -->
+      <div class="mb-6">
+        <h1 class="text-6xl md:text-7xl font-bold mb-4 leading-tight animate-fade-in-up">
+          Premium Car Rentals
+        </h1>
+        <div class="text-3xl md:text-4xl font-light animate-fade-in-up-delay">
+          <span class="text-accent typing-animation">in Kenya</span>
+        </div>
+      </div>
+      
+      <!-- Subtitle with Stagger Animation -->
+      <p class="text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto animate-fade-in-up-delay-2 leading-relaxed">
+        Experience luxury and comfort with our premium fleet. Your journey begins here with the finest vehicles and exceptional service.
+      </p>
+      
+      <!-- Search Form with Slide Up Animation -->
+      <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 max-w-5xl mx-auto border border-white/20 shadow-2xl animate-slide-up">
+        <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <!-- Pickup Location -->
+          <div class="md:col-span-3">
+            <label class="block text-white/90 text-sm font-medium mb-2">Pickup Location</label>
+            <select 
+              formControlName="pickupLocation"
+              class="w-full bg-white/95 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all duration-300"
+            >
+              <option value="">Select location</option>
+              <option value="nairobi-westlands">Nairobi Westlands</option>
+              <option value="nairobi-upperhill">Nairobi Upperhill</option>
+              <option value="mombasa">Mombasa</option>
+              <option value="nakuru">Nakuru</option>
+              <option value="kisumu">Kisumu</option>
+            </select>
+          </div>
+          
+          <!-- Dropoff Location -->
+          <div class="md:col-span-3">
+            <label class="block text-white/90 text-sm font-medium mb-2">Dropoff Location</label>
+            <select 
+              formControlName="dropoffLocation"
+              class="w-full bg-white/95 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all duration-300"
+            >
+              <option value="">Select location</option>
+              <option value="nairobi-westlands">Nairobi Westlands</option>
+              <option value="nairobi-upperhill">Nairobi Upperhill</option>
+              <option value="mombasa">Mombasa</option>
+              <option value="nakuru">Nakuru</option>
+              <option value="kisumu">Kisumu</option>
+            </select>
+          </div>
+          
+          <!-- Pickup Date -->
+          <div class="md:col-span-2">
+            <label class="block text-white/90 text-sm font-medium mb-2">Pickup Date</label>
+            <input 
+              type="date" 
+              formControlName="pickupDate"
+              [min]="getMinDate()"
+              class="w-full bg-white/95 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all duration-300"
+            >
+          </div>
+          
+          <!-- Return Date -->
+          <div class="md:col-span-2">
+            <label class="block text-white/90 text-sm font-medium mb-2">Return Date</label>
+            <input 
+              type="date" 
+              formControlName="returnDate"
+              [min]="getMinReturnDate()"
+              class="w-full bg-white/95 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all duration-300"
+            >
+          </div>
+          
+          <!-- Search Button -->
+          <div class="md:col-span-2 flex items-end">
+            <button 
+              type="submit"
+              [disabled]="!searchForm.valid"
+              class="w-full bg-gradient-to-r from-accent to-orange-500 text-white font-semibold py-3 rounded-xl hover:from-orange-500 hover:to-accent transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              <app-lucide-icon name="Search" class="w-5 h-5"></app-lucide-icon>
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+          <div class="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose CarRental?</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        We provide the best car rental experience with premium vehicles and exceptional service.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="text-center group hover:transform hover:scale-105 transition-all duration-300">
+        <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+          <app-lucide-icon name="Shield" class="w-10 h-10 text-primary"></app-lucide-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">Safe & Reliable</h3>
+        <p class="text-gray-600">All vehicles are regularly maintained and fully insured for your peace of mind.</p>
+      </div>
+      
+      <!-- Feature 2 -->
+      <div class="text-center group hover:transform hover:scale-105 transition-all duration-300">
+        <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+          <app-lucide-icon name="Clock" class="w-10 h-10 text-primary"></app-lucide-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">24/7 Support</h3>
+        <p class="text-gray-600">Round-the-clock customer support to assist you with any questions or emergencies.</p>
+      </div>
+      
+      <!-- Feature 3 -->
+      <div class="text-center group hover:transform hover:scale-105 transition-all duration-300">
+        <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+          <app-lucide-icon name="CreditCard" class="w-10 h-10 text-primary"></app-lucide-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">Flexible Payment</h3>
+        <p class="text-gray-600">Multiple payment options including cash, card, and mobile money for your convenience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Vehicles Section -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Vehicles</h2>
+      <p class="text-xl text-gray-600">Discover our most popular and luxurious vehicles</p>
+    </div>
+    
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+        <p class="text-gray-600">Loading featured vehicles...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="bg-red-50 border border-red-200 rounded-lg p-6 text-center mb-8">
+      <app-lucide-icon name="AlertCircle" class="w-12 h-12 text-red-500 mx-auto mb-4"></app-lucide-icon>
+      <h3 class="text-lg font-semibold text-red-800 mb-2">Error Loading Vehicles</h3>
+      <p class="text-red-600 mb-4">{{ error }}</p>
+      <button (click)="loadFeaturedVehicles()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">Try Again</button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="isEmpty" class="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center mb-8">
+      <app-lucide-icon name="Car" class="w-16 h-16 text-gray-400 mx-auto mb-4"></app-lucide-icon>
+      <h3 class="text-xl font-semibold text-gray-900 mb-2">No Featured Vehicles</h3>
+      <p class="text-gray-600 mb-6">No vehicles are currently available. Please check back later.</p>
+      <a routerLink="/vehicles" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors">Browse All Vehicles</a>
+    </div>
+    
+    <!-- Vehicles Grid -->
+    <div *ngIf="!loading && !error && !isEmpty" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <app-vehicle-card
+        *ngFor="let vehicle of featuredVehicles"
+        [vehicle]="vehicle"
+      ></app-vehicle-card>
+    </div>
+    
+    <!-- View All Button -->
+    <div class="text-center mt-12">
+      <a 
+        routerLink="/vehicles" 
+        class="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+      >
+        View All Vehicles
+        <app-lucide-icon name="ArrowRight" class="w-5 h-5"></app-lucide-icon>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
+      <p class="text-xl text-gray-600">Real experiences from satisfied customers</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-white p-8 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-2 mb-4">
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+        </div>
+        <p class="text-gray-700 mb-6 italic">
+          "Excellent service! The Mercedes S-Class was in perfect condition and the pickup/dropoff process was seamless. Highly recommend!"
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-semibold">JD</div>
+          <div>
+            <p class="font-semibold text-gray-900">John Doe</p>
+            <p class="text-sm text-gray-600">Business Traveler</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Testimonial 2 -->
+      <div class="bg-white p-8 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-2 mb-4">
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+          <app-lucide-icon name="Star" class="w-5 h-5 text-yellow-500 fill-current"></app-lucide-icon>
+        </div>
+        <p class="text-gray-700 mb-6 italic">
+          "The Land Cruiser was perfect for our family vacation. Spacious, comfortable, and handled all terrains beautifully."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-semibold">JS</div>
+          <div>
+            <p class="font-semibold text-gray-900">Jane Smith</p>
+            <p class="text-sm text-gray-600">Family Traveler</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-primary text-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-4xl font-bold mb-6">Ready to Start Your Journey?</h2>
+    <p class="text-xl mb-8 text-white/90">
+      Join thousands of satisfied customers who trust CarRental for their transportation needs.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a 
+        routerLink="/vehicles" 
+        class="bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-accent/90 transition-colors"
+      >
+        Browse Vehicles
+      </a>
+      <a 
+        routerLink="/dashboard" 
+        class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors"
+      >
+        My Dashboard
+      </a>
+    </div>
+  </div>
+</section> 

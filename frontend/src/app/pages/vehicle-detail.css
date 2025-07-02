@@ -1,0 +1,44 @@
+/* Vehicle Detail Styles */
+.bg-primary\/10 {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+.text-primary {
+  color: #2563eb;
+}
+.text-accent {
+  color: #f59e0b;
+}
+.bg-accent {
+  background-color: #f59e0b;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 40px 0 rgba(0,0,0,0.08), 0 2px 4px 0 rgba(0,0,0,0.04);
+}
+
+.rounded-2xl {
+  border-radius: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .md\:flex {
+    display: block !important;
+  }
+  .md\:w-1\/2 {
+    width: 100% !important;
+  }
+  .p-8 {
+    padding: 1.5rem !important;
+  }
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Animate image on hover */
+img.rounded-xl:hover {
+  box-shadow: 0 8px 32px rgba(59,130,246,0.15);
+  transform: scale(1.03);
+  transition: all 0.2s;
+} 

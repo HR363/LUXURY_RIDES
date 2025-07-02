@@ -1,0 +1,66 @@
+/* Sign In Page Styles */
+.bg-primary {
+  background-color: #2563eb;
+}
+
+.text-primary {
+  color: #2563eb;
+}
+
+/* Form focus effects */
+.focus\:ring-primary:focus {
+  --tw-ring-color: #2563eb;
+}
+
+.focus\:border-primary:focus {
+  border-color: #2563eb;
+}
+
+/* Button hover effects */
+.hover\:bg-primary\/90:hover {
+  background-color: rgba(37, 99, 235, 0.9);
+}
+
+.hover\:text-primary\/80:hover {
+  color: rgba(37, 99, 235, 0.8);
+}
+
+/* Input border colors */
+.border-red-300 {
+  border-color: #fca5a5;
+}
+
+/* Loading animation */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Card shadow effects */
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Smooth transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .signin-container {
+    padding: 1rem;
+  }
+  
+  .signin-form {
+    padding: 1.5rem;
+  }
+} 

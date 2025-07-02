@@ -1,0 +1,157 @@
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary to-blue-800 text-white py-20">
+  <div class="absolute inset-0 bg-black/20"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-5xl md:text-6xl font-bold mb-6">About CarRental</h1>
+    <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
+      Your trusted partner for premium car rentals in Kenya since 2019
+    </p>
+  </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
+        <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+          Founded in 2019, CarRental began with a simple mission: to provide Kenyans with access to premium vehicles 
+          for their travel needs. What started as a small fleet of 5 vehicles has grown into one of Kenya's leading 
+          car rental services.
+        </p>
+        <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+          We understand that every journey is unique, whether it's a business trip, family vacation, or special occasion. 
+          That's why we've curated a diverse fleet of well-maintained vehicles to meet every need and budget.
+        </p>
+        <p class="text-lg text-gray-600 leading-relaxed">
+          Our commitment to excellence, customer satisfaction, and safety has made us the preferred choice for 
+          thousands of customers across Kenya.
+        </p>
+      </div>
+      <div class="relative">
+        <img 
+          src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+          alt="CarRental Fleet" 
+          class="rounded-2xl shadow-2xl"
+        >
+        <div class="absolute -bottom-6 -left-6 bg-primary text-white p-6 rounded-xl">
+          <div class="text-3xl font-bold">5+</div>
+          <div class="text-sm">Years of Excellence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Numbers</h2>
+      <p class="text-xl text-gray-600">Trusted by thousands of customers across Kenya</p>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div *ngFor="let stat of stats" class="text-center">
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+          <div class="text-4xl font-bold text-primary mb-2">{{ stat.number }}</div>
+          <div class="text-gray-600">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission & Values Section -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Mission & Values</h2>
+      <p class="text-xl text-gray-600">What drives us forward</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Mission -->
+      <div class="text-center p-8 bg-primary/5 rounded-2xl">
+        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+          <app-lucide-icon name="Target" class="w-8 h-8 text-white"></app-lucide-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Mission</h3>
+        <p class="text-gray-600">
+          To provide reliable, affordable, and premium car rental services that exceed customer expectations 
+          and contribute to Kenya's growing tourism and business sectors.
+        </p>
+      </div>
+      
+      <!-- Vision -->
+      <div class="text-center p-8 bg-primary/5 rounded-2xl">
+        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+          <app-lucide-icon name="Eye" class="w-8 h-8 text-white"></app-lucide-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Vision</h3>
+        <p class="text-gray-600">
+          To become the leading car rental service in East Africa, known for innovation, customer satisfaction, 
+          and sustainable business practices.
+        </p>
+      </div>
+      
+      <!-- Values -->
+      <div class="text-center p-8 bg-primary/5 rounded-2xl">
+        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+          <app-lucide-icon name="Heart" class="w-8 h-8 text-white"></app-lucide-icon>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Values</h3>
+        <p class="text-gray-600">
+          Integrity, reliability, customer focus, and continuous improvement guide everything we do 
+          to ensure the best experience for our customers.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+      <p class="text-xl text-gray-600">The passionate people behind CarRental</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div *ngFor="let member of teamMembers" class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+        <img [src]="member.image" [alt]="member.name" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ member.name }}</h3>
+          <p class="text-primary font-medium mb-4">{{ member.role }}</p>
+          <p class="text-gray-600">{{ member.bio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-primary text-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-4xl font-bold mb-6">Ready to Experience Premium Car Rental?</h2>
+    <p class="text-xl mb-8 text-white/90">
+      Join thousands of satisfied customers who trust CarRental for their transportation needs.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a 
+        routerLink="/vehicles" 
+        class="bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-accent/90 transition-colors"
+      >
+        Browse Vehicles
+      </a>
+      <a 
+        routerLink="/signup" 
+        class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors"
+      >
+        Get Started
+      </a>
+    </div>
+  </div>
+</section> 

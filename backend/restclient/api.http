@@ -1,0 +1,28 @@
+### Register a new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "fx363corp@gmail.com",
+  "password": "harry123",
+  "firstName": "harry",
+  "lastName": "notam",
+  "phone": "079058934",
+}
+
+### Login as a user
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "TestPassword123"
+}
+
+### Get all vehicles (protected, replace {{token}} with your JWT)
+GET http://localhost:3000/vehicles
+Authorization: Bearer {{token}}
+
+### Get dashboard summary (admin/agent only, replace {{token}})
+GET http://localhost:3000/dashboard/summary
+Authorization: Bearer {{token}} 

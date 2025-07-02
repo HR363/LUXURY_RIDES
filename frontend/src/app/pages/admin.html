@@ -1,0 +1,441 @@
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <div class="w-64 bg-white shadow-lg">
+    <!-- Sidebar Header -->
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+          <app-lucide-icon name="Shield" class="w-6 h-6 text-white"></app-lucide-icon>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-gray-900">Admin Panel</h1>
+          <p class="text-sm text-gray-500">{{ currentUser?.role }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="p-4">
+      <ul class="space-y-2">
+        <li>
+          <button
+            (click)="loadSectionData('overview')"
+            [class]="activeSection === 'overview' 
+              ? 'bg-primary text-white' 
+              : 'text-gray-700 hover:bg-gray-100'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+          >
+            <app-lucide-icon name="BarChart3" class="w-5 h-5"></app-lucide-icon>
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="loadSectionData('vehicles')"
+            [class]="activeSection === 'vehicles' 
+              ? 'bg-primary text-white' 
+              : 'text-gray-700 hover:bg-gray-100'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+          >
+            <app-lucide-icon name="Car" class="w-5 h-5"></app-lucide-icon>
+            Vehicles
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="loadSectionData('users')"
+            [class]="activeSection === 'users' 
+              ? 'bg-primary text-white' 
+              : 'text-gray-700 hover:bg-gray-100'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+          >
+            <app-lucide-icon name="Users" class="w-5 h-5"></app-lucide-icon>
+            Users
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="loadSectionData('bookings')"
+            [class]="activeSection === 'bookings' 
+              ? 'bg-primary text-white' 
+              : 'text-gray-700 hover:bg-gray-100'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+          >
+            <app-lucide-icon name="Calendar" class="w-5 h-5"></app-lucide-icon>
+            Bookings
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="loadSectionData('reviews')"
+            [class]="activeSection === 'reviews' 
+              ? 'bg-primary text-white' 
+              : 'text-gray-700 hover:bg-gray-100'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors"
+          >
+            <app-lucide-icon name="Star" class="w-5 h-5"></app-lucide-icon>
+            Reviews
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- User Info -->
+    <div class="absolute bottom-0 w-64 p-4 border-t border-gray-200">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+          <app-lucide-icon name="User" class="w-4 h-4 text-gray-600"></app-lucide-icon>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-gray-900 truncate">
+            {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+          </p>
+          <p class="text-xs text-gray-500 truncate">{{ currentUser?.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 overflow-auto">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+      <h2 class="text-2xl font-bold text-gray-900 capitalize">{{ activeSection }}</h2>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="m-6 bg-red-50 border border-red-200 rounded-lg p-4">
+      <div class="flex items-center gap-3">
+        <app-lucide-icon name="AlertCircle" class="w-6 h-6 text-red-500"></app-lucide-icon>
+        <p class="text-red-800">{{ error }}</p>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="p-6">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="flex justify-center items-center py-12">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p class="text-gray-600">Loading...</p>
+        </div>
+      </div>
+
+      <!-- Overview Section -->
+      <div *ngIf="activeSection === 'overview' && !loading">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Total Vehicles -->
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-600">Total Vehicles</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats?.totalVehicles || 0 }}</p>
+              </div>
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <app-lucide-icon name="Car" class="w-6 h-6 text-blue-600"></app-lucide-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Available Vehicles -->
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-600">Available</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats?.availableVehicles || 0 }}</p>
+              </div>
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <app-lucide-icon name="CheckCircle" class="w-6 h-6 text-green-600"></app-lucide-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Bookings -->
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-600">Total Bookings</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats?.totalBookings || 0 }}</p>
+              </div>
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <app-lucide-icon name="Calendar" class="w-6 h-6 text-purple-600"></app-lucide-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Revenue -->
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+                <p class="text-2xl font-bold text-gray-900">{{ formatCurrency(stats?.totalRevenue?.toString() || '0') }}</p>
+              </div>
+              <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <app-lucide-icon name="DollarSign" class="w-6 h-6 text-yellow-600"></app-lucide-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div class="p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-500 text-center">Recent activity will be displayed here</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vehicles Section -->
+      <div *ngIf="activeSection === 'vehicles' && !loading">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-900">All Vehicles</h3>
+            <button (click)="showAddVehicleForm = true" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors font-semibold">+ Add Vehicle</button>
+          </div>
+
+          <!-- Add Vehicle Form -->
+          <div *ngIf="showAddVehicleForm" class="p-6 border-b border-gray-200 bg-gray-50">
+            <form (ngSubmit)="addVehicle()" #addVehicleForm="ngForm" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+              <input type="text" name="make" [(ngModel)]="newVehicle.make" placeholder="Make" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <input type="text" name="model" [(ngModel)]="newVehicle.model" placeholder="Model" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <input type="text" name="category" [(ngModel)]="newVehicle.category" placeholder="Category" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <input type="number" name="pricePerDay" [(ngModel)]="newVehicle.pricePerDay" placeholder="Price/Day" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <input type="number" name="year" [(ngModel)]="newVehicle.year" placeholder="Year" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <input type="text" name="licensePlate" [(ngModel)]="newVehicle.licensePlate" placeholder="License Plate" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <input type="number" name="locationId" [(ngModel)]="newVehicle.locationId" placeholder="Location ID" required class="form-input px-4 py-2 rounded border border-gray-300" />
+              <div class="flex flex-col gap-2">
+                <input type="file" (change)="onImageSelected($event)" accept="image/*" class="form-input px-4 py-2 rounded border border-gray-300" />
+                <button type="button" (click)="uploadImage()" [disabled]="!selectedImageFile" class="bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">Upload Image</button>
+                <img *ngIf="newVehicle.imageUrl" [src]="newVehicle.imageUrl" alt="Preview" class="w-16 h-16 object-cover rounded mt-2 border" />
+              </div>
+              <input type="text" name="features" [(ngModel)]="newVehicle.features" placeholder="Features (comma separated)" class="form-input px-4 py-2 rounded border border-gray-300" />
+              <div class="flex gap-2 md:col-span-5">
+                <button type="submit" [disabled]="addVehicleForm.invalid" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">Add</button>
+                <button type="button" (click)="showAddVehicleForm = false" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vehicle</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price/Day</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let vehicle of vehicles" class="hover:bg-gray-50">
+                  <ng-container *ngIf="editingVehicle && editingVehicle.id === vehicle.id; else showVehicleRow">
+                    <td colspan="5" class="bg-gray-50 px-6 py-4">
+                      <form (ngSubmit)="saveEditVehicle()" #editVehicleForm="ngForm" class="flex flex-wrap gap-2 items-end">
+                        <input type="text" name="make" [(ngModel)]="editingVehicle.make" placeholder="Make" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="text" name="model" [(ngModel)]="editingVehicle.model" placeholder="Model" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="text" name="category" [(ngModel)]="editingVehicle.category" placeholder="Category" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="number" name="pricePerDay" [(ngModel)]="editingVehicle.pricePerDay" placeholder="Price/Day" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="number" name="year" [(ngModel)]="editingVehicle.year" placeholder="Year" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="text" name="licensePlate" [(ngModel)]="editingVehicle.licensePlate" placeholder="License Plate" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="number" name="locationId" [(ngModel)]="editingVehicle.locationId" placeholder="Location ID" required class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="text" name="imageUrl" [(ngModel)]="editingVehicle.imageUrl" placeholder="Image URL" class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <input type="text" name="features" [(ngModel)]="editingVehicle.features" placeholder="Features (comma separated)" class="form-input px-2 py-1 rounded border border-gray-300" />
+                        <button type="submit" [disabled]="editVehicleForm.invalid" class="bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">Save</button>
+                        <button type="button" (click)="cancelEditVehicle()" class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400 transition-colors">Cancel</button>
+                      </form>
+                    </td>
+                  </ng-container>
+                  <ng-template #showVehicleRow>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <img [src]="vehicle.imageUrl" [alt]="vehicle.make + ' ' + vehicle.model" class="w-10 h-10 rounded-lg object-cover mr-3">
+                        <div>
+                          <div class="font-semibold text-gray-900">{{ vehicle.make }} {{ vehicle.model }}</div>
+                          <div class="text-xs text-gray-500">ID: {{ vehicle.id }}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">{{ vehicle.category }}</td>
+                    <td class="px-6 py-4">KES {{ vehicle.pricePerDay | number }}</td>
+                    <td class="px-6 py-4">{{ vehicle.isAvailable ? 'Available' : 'Unavailable' }}</td>
+                    <td class="px-6 py-4 text-right">
+                      <button (click)="startEditVehicle(vehicle)" class="text-blue-600 hover:underline mr-2">Edit</button>
+                      <button (click)="deleteVehicle(vehicle.id)" class="text-red-600 hover:underline">Delete</button>
+                    </td>
+                  </ng-template>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <div *ngIf="activeSection === 'users' && !loading">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">All Users</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let user of users" class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+                        <app-lucide-icon name="User" class="w-5 h-5 text-gray-600"></app-lucide-icon>
+                      </div>
+                      <div>
+                        <div class="text-sm font-medium text-gray-900">{{ user.firstName }} {{ user.lastName }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ user.email }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span [class]="getRoleColor(user.role)" class="px-2 py-1 text-xs font-medium rounded-full">
+                      {{ user.role }}
+                    </span>
+                    <ng-container *ngIf="user.id !== currentUser?.id">
+                      <select [(ngModel)]="user.editRole" name="editRole-{{user.id}}" class="ml-2 border rounded px-2 py-1 text-xs">
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="AGENT">AGENT</option>
+                        <option value="CUSTOMER">CUSTOMER</option>
+                      </select>
+                      <button (click)="changeUserRole(user)" class="ml-2 bg-primary text-white px-2 py-1 rounded text-xs">Save</button>
+                    </ng-container>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ user.phone || '-' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bookings Section -->
+      <div *ngIf="activeSection === 'bookings' && !loading">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">All Bookings</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Booking ID</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vehicle</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dates</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let booking of bookings" class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{{ booking.id }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">{{ booking.vehicle?.make }} {{ booking.vehicle?.model }}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">User #{{ booking.userId }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ booking.startDate | date:'shortDate' }}</div>
+                    <div class="text-sm text-gray-500">to {{ booking.endDate | date:'shortDate' }}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {{ formatCurrency(booking.totalPrice) }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span [class]="getStatusColor(booking.status)" class="px-2 py-1 text-xs font-medium rounded-full">
+                      {{ booking.status }}
+                    </span>
+                    <button *ngIf="booking.status === 'PENDING'" (click)="approveBooking(booking.id)" [disabled]="approvingBookingId === booking.id || rejectingBookingId === booking.id" class="ml-3 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors text-xs font-semibold">
+                      <span *ngIf="approvingBookingId !== booking.id">Approve</span>
+                      <span *ngIf="approvingBookingId === booking.id">Approving...</span>
+                    </button>
+                    <button *ngIf="booking.status === 'PENDING'" (click)="rejectBooking(booking.id)" [disabled]="rejectingBookingId === booking.id || approvingBookingId === booking.id" class="ml-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors text-xs font-semibold">
+                      <span *ngIf="rejectingBookingId !== booking.id">Reject</span>
+                      <span *ngIf="rejectingBookingId === booking.id">Rejecting...</span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews Section -->
+      <div *ngIf="activeSection === 'reviews' && !loading">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-900">All Reviews</h3>
+          </div>
+          <div class="p-6">
+            <div *ngIf="reviewsLoading" class="flex justify-center items-center py-8">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+              <p class="text-gray-600 ml-2">Loading reviews...</p>
+            </div>
+            <div *ngIf="reviewsError" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+              <div class="flex items-center gap-2">
+                <app-lucide-icon name="AlertCircle" class="w-5 h-5 text-red-500"></app-lucide-icon>
+                <span class="text-red-800">{{ reviewsError }}</span>
+              </div>
+            </div>
+            <div *ngIf="!reviewsLoading && !reviewsError && reviews.length === 0" class="text-gray-500 text-center py-8">
+              No reviews found.
+            </div>
+            <div *ngIf="!reviewsLoading && !reviewsError && reviews.length > 0" class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Reviewer</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Vehicle</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Rating</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Comment</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                  <tr *ngFor="let review of reviews">
+                    <td class="px-4 py-2 whitespace-nowrap">
+                      <div class="font-medium text-gray-900">{{ review.user.firstName }} {{ review.user.lastName }}</div>
+                      <div class="text-xs text-gray-500">{{ review.user.email }}</div>
+                    </td>
+                    <td class="px-4 py-2 whitespace-nowrap">
+                      <div class="font-medium text-gray-900">{{ review.vehicle.make }} {{ review.vehicle.model }}</div>
+                      <div class="text-xs text-gray-500">ID: {{ review.vehicle.id }}</div>
+                    </td>
+                    <td class="px-4 py-2 whitespace-nowrap">
+                      <span class="inline-flex items-center gap-1">
+                        <span class="font-semibold">{{ review.rating }}</span>
+                        <app-lucide-icon name="Star" class="w-4 h-4 text-yellow-400"></app-lucide-icon>
+                      </span>
+                    </td>
+                    <td class="px-4 py-2 whitespace-nowrap">
+                      <span class="text-gray-700">{{ review.comment || '-' }}</span>
+                    </td>
+                    <td class="px-4 py-2 whitespace-nowrap">
+                      <span class="text-xs text-gray-500">{{ review.createdAt | date:'medium' }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
